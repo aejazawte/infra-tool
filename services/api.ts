@@ -1,76 +1,152 @@
 import { Server, ServerStatus, UserCreationRequest, ApiResponse, UserRole } from '../types';
 
-// Mock Data
+// Mock Data - Expanded to 10 Servers
 const MOCK_SERVERS: Server[] = [
   {
     id: 'srv-001',
-    name: 'Primary Web Server',
-    ip: '192.168.1.10',
+    name: 'Web Prod 01',
+    ip: '10.0.1.10',
     os: 'Ubuntu 22.04 LTS',
     status: ServerStatus.ONLINE,
-    tags: ['Production', 'Web'],
+    tags: ['Production', 'Web', 'Nginx'],
     stats: {
       cpu: 45,
       memory: 62,
       disk: 30,
-      history: [
-        { time: '10:00', usage: 20 },
-        { time: '10:05', usage: 35 },
-        { time: '10:10', usage: 45 },
-        { time: '10:15', usage: 40 },
-        { time: '10:20', usage: 45 },
-      ]
+      history: []
     }
   },
   {
     id: 'srv-002',
-    name: 'Database Node A',
-    ip: '192.168.1.20',
-    os: 'CentOS 8 Stream',
+    name: 'Web Prod 02',
+    ip: '10.0.1.11',
+    os: 'Ubuntu 22.04 LTS',
     status: ServerStatus.ONLINE,
-    tags: ['Production', 'Database'],
+    tags: ['Production', 'Web', 'Nginx'],
     stats: {
-      cpu: 78,
-      memory: 85,
-      disk: 60,
-      history: [
-        { time: '10:00', usage: 60 },
-        { time: '10:05', usage: 70 },
-        { time: '10:10', usage: 82 },
-        { time: '10:15', usage: 75 },
-        { time: '10:20', usage: 78 },
-      ]
+      cpu: 38,
+      memory: 55,
+      disk: 28,
+      history: []
     }
   },
   {
     id: 'srv-003',
-    name: 'Dev Environment',
-    ip: '192.168.1.55',
-    os: 'Debian 11',
-    status: ServerStatus.MAINTENANCE,
-    tags: ['Staging', 'Internal'],
+    name: 'DB Master',
+    ip: '10.0.2.50',
+    os: 'CentOS 8 Stream',
+    status: ServerStatus.ONLINE,
+    tags: ['Production', 'Database', 'PostgreSQL'],
     stats: {
-      cpu: 10,
-      memory: 15,
-      disk: 12,
-      history: [
-        { time: '10:00', usage: 5 },
-        { time: '10:05', usage: 8 },
-        { time: '10:10', usage: 12 },
-        { time: '10:15', usage: 10 },
-        { time: '10:20', usage: 10 },
-      ]
+      cpu: 78,
+      memory: 85,
+      disk: 60,
+      history: []
     }
   },
+  {
+    id: 'srv-004',
+    name: 'DB Replica',
+    ip: '10.0.2.51',
+    os: 'CentOS 8 Stream',
+    status: ServerStatus.ONLINE,
+    tags: ['Production', 'Database', 'Read-Only'],
+    stats: {
+      cpu: 25,
+      memory: 40,
+      disk: 58,
+      history: []
+    }
+  },
+  {
+    id: 'srv-005',
+    name: 'Cache Cluster',
+    ip: '10.0.3.15',
+    os: 'Debian 11',
+    status: ServerStatus.ONLINE,
+    tags: ['Production', 'Cache', 'Redis'],
+    stats: {
+      cpu: 12,
+      memory: 70,
+      disk: 15,
+      history: []
+    }
+  },
+  {
+    id: 'srv-006',
+    name: 'Load Balancer',
+    ip: '10.0.0.5',
+    os: 'Alpine Linux',
+    status: ServerStatus.ONLINE,
+    tags: ['Network', 'HAProxy'],
+    stats: {
+      cpu: 5,
+      memory: 10,
+      disk: 5,
+      history: []
+    }
+  },
+  {
+    id: 'srv-007',
+    name: 'Dev Server',
+    ip: '10.0.10.20',
+    os: 'Ubuntu 22.04',
+    status: ServerStatus.ONLINE,
+    tags: ['Development', 'General'],
+    stats: {
+      cpu: 10,
+      memory: 25,
+      disk: 40,
+      history: []
+    }
+  },
+  {
+    id: 'srv-008',
+    name: 'Staging Env',
+    ip: '10.0.10.21',
+    os: 'Ubuntu 22.04',
+    status: ServerStatus.MAINTENANCE,
+    tags: ['Staging', 'Testing'],
+    stats: {
+      cpu: 0,
+      memory: 5,
+      disk: 40,
+      history: []
+    }
+  },
+  {
+    id: 'srv-009',
+    name: 'Backup Server',
+    ip: '10.0.5.99',
+    os: 'Debian 12',
+    status: ServerStatus.OFFLINE,
+    tags: ['Storage', 'Backup'],
+    stats: {
+      cpu: 0,
+      memory: 0,
+      disk: 0,
+      history: []
+    }
+  },
+  {
+    id: 'srv-10',
+    name: 'Monitoring Node',
+    ip: '10.0.99.1',
+    os: 'Ubuntu 22.04',
+    status: ServerStatus.ONLINE,
+    tags: ['Ops', 'Monitoring'],
+    stats: {
+      cpu: 15,
+      memory: 30,
+      disk: 20,
+      history: []
+    }
+  }
 ];
 
-const DELAY = 800;
+const DELAY = 600;
 
 export const fetchServers = async (): Promise<ApiResponse<Server[]>> => {
-  // In a real app, this would be: 
-  // const res = await fetch('/api/servers');
-  // return res.json();
-  
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({ success: true, data: MOCK_SERVERS });
@@ -79,9 +155,6 @@ export const fetchServers = async (): Promise<ApiResponse<Server[]>> => {
 };
 
 export const createServerUser = async (data: UserCreationRequest): Promise<ApiResponse<null>> => {
-  // In a real app:
-  // const res = await fetch('/api/users/create', { method: 'POST', body: JSON.stringify(data) ... });
-  
   console.log("Submitting payload to backend:", data);
 
   return new Promise((resolve) => {
