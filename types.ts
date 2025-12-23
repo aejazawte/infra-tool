@@ -1,45 +1,30 @@
-export enum ServerStatus {
-  ONLINE = 'ONLINE',
-  OFFLINE = 'OFFLINE',
-  MAINTENANCE = 'MAINTENANCE'
-}
-
-export enum UserRole {
-  DEVELOPER = 'developer',
-  ADMIN = 'admin',
-  VIEWER = 'viewer'
-}
-
-export interface ServerStats {
-  cpu: number;
-  memory: number;
-  disk: number;
-  history: { time: string; usage: number }[];
-}
-
 export interface Server {
   id: string;
   name: string;
-  ip: string;
-  os: string;
-  status: ServerStatus;
-  tags: string[];
-  stats: ServerStats;
+  // Optional fields as backend only sends id and name currently
+  ip?: string; 
+  status?: 'ONLINE' | 'OFFLINE';
 }
 
-export interface UserCreationRequest {
+export interface ServerUser {
+  username: string;
+  uid: string;
+  gid: string;
+  home: string;
+  shell: string;
+  status: 'active' | 'locked'; 
+}
+
+export interface CreateUserPayload {
   serverId: string;
   username: string;
-  email: string;
-  fullName: string;
-  role: UserRole;
-  sshKey?: string;
+  expiry: string; // YYYY-MM-DD
   sudo: boolean;
-  welcomeMessage?: string;
 }
 
 export interface ApiResponse<T> {
   success: boolean;
   data?: T;
   error?: string;
+  message?: string;
 }
