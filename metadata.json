@@ -1,0 +1,5 @@
+{
+  "name": "SysAdmin Portal",
+  "description": "A centralized dashboard for managing Linux server user accounts and monitoring server health, eliminating manual SSH workflows.",
+  "requestFramePermissions": []
+}
